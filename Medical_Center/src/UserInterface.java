@@ -17,11 +17,25 @@ public class UserInterface {
                     if (input == 1) {
                         services.addSpecialization(getUserInput("Specialization?"),
                                 Integer.parseInt(getUserInput("Visit cost for specialization?")));
+                    } else if (input == 2) {
+                        String firstName = getUserInput("First Name: ");
+                        String lastName = getUserInput("Last Name: ");
+                        services.listSpecializations();
+                        //Fetches a number from a list, needs to be converted in addDoctor()
+                        int specialization = Integer.parseInt(getUserInput("Select number: "));
+                        String phoneNbr = getUserInput("Phone number: ");
+                        services.addDoctor(firstName, lastName, specialization, phoneNbr);
+                    } else if (input == 3) {
+                        System.out.println("Not implemented");
                     } else if (input == 4) {
                         services.printAllPatients();
+                    } else if (input == 5) {
+                        services.listAllUpcomingAppointments();
                     } else if (input == 6) {
-                        //ONGOING NOT DONE
                         services.listAllMedicalRecordsOfPatient(getUserInput("Input medical number of patient:"));
+                    }
+                    else if (input == 7) {
+                        System.out.println("not implemented");
                     }
 
                     // DOCTOR SERVICES
