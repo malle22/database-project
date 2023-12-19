@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -41,8 +42,17 @@ public class UserInterface {
                     // DOCTOR SERVICES
                 } else if (input == 2) {
                     System.out.println(
-                            "Please select one of the following: \n 1-Alter availabilities\n 2-See a list of all upcoming appointments\n 3-See a list of all patients\n 4-Add medical record to a patient\n 5-See a list of all upcoming appointments\n 6-See a list of a patient's medical records");
+                            "Please select one of the following: \n 1-Alter availability\n 2-See a list of all upcoming appointments\n 3-Add a medical record to a patient");
                     input = Integer.parseInt(getUserInput(null));
+                    if(input == 1){
+                        services.changeAvailability(getUserInput("Input employee number: 8 digits"), getUserInput("Input day: format 'Monday'"), Time.valueOf(getUserInput("Input time: format 'HH:mm:ss'")));
+                    }
+                    else if(input == 2){
+                        services.listAllUpcomingAppointmentsOfDoctor(getUserInput("Input employee number: 8 digits"));
+                    }
+                    else if(input == 3){
+
+                    }
 
                     // PATIENT services
                 } else if (input == 3) {
