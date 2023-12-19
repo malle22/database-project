@@ -35,43 +35,38 @@ public class MedicalServices {
     // Call a database function
 
     public void listAllMedicalRecordsOfPatient(String medicalNum) throws Exception {
-        String query = "{? = call fn_list_p_medical_records(?)} ";
+        String query = "SELECT * FROM fn_list_p_medical_records(?)";
 
-        Connection con = getDatabaseConnection();
-        CallableStatement cstmt = con.prepareCall(query);
+        try (Connection con = getDatabaseConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+            // Set input parameters
+            pstmt.setString(1, medicalNum);
 
-        // set output parameters
-        cstmt.registerOutParameter(1, Types.OTHER);
-        // set input parameters
-        cstmt.setString(2, medicalNum);
-        // Run hello() function
-        cstmt.execute(); // failing here
-        System.out.println("execute()");
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
 
-        ResultSet rs = (ResultSet) cstmt.getObject(1);
-        System.out.println("rs");
+            // Get result for each medical record
+            while (rs.next()) {
+                System.out.println("while");
+                String diagnosis = rs.getString("diagnosis");
+                String prescription = rs.getString("prescription");
+                String description = rs.getString("description");
+                String patient = rs.getString("patient_full_name");
+                String doctor = rs.getString("doctor_full_name");
+                String employeeNbr = rs.getString("employee_number");
+                Date recordDate = rs.getDate("record_date");
 
-          // Get result for each medical record
-        while (rs.next()) {
-          System.out.println("while");
-          String diagnosis = rs.getString("diagnosis");
-          String prescription = rs.getString("prescription");
-          String description = rs.getString("description");
-          String patient = rs.getString("patient_full_name");
-          String doctor = rs.getString("doctor_full_name");
-          String employeeNbr = rs.getString("employee_number");
-          Date recordDate = rs.getDate("record_date");
-
-          System.out.print("Diagnosis: " + diagnosis);
-          System.out.print(", Description: " + description);
-          System.out.print(", Prescription: " + prescription);
-          System.out.print(", Doctor: " + doctor);
-          System.out.println(", Record date: " + recordDate);
-          System.out.println("--------------------------------");
+                System.out.print("Diagnosis: " + diagnosis);
+                System.out.print(", Description: " + description);
+                System.out.print(", Prescription: " + prescription);
+                System.out.print(", Doctor: " + doctor);
+                System.out.println(", Record date: " + recordDate);
+                System.out.println("--------------------------------");
+            }
+        } catch (SQLException e ){
+            e.printStackTrace();
+            throw new Exception("Error retrieving medical records.", e);
         }
-        rs.close();
-        cstmt.close();
-        con.close();
     }
 
     public void printAllPatients() throws Exception {
