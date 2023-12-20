@@ -51,7 +51,10 @@ public class UserInterface {
                         services.listAllUpcomingAppointmentsOfDoctor(getUserInput("Input employee number: 8 digits"));
                     }
                     else if(input == 3){
-
+                        String eNum = getUserInput("Enter employee number: 8-digit");
+                        services.listDoctorsPatients(eNum);
+                        String mNum = getUserInput("Enter medical number: 8-digit");
+                        services.addMedicalRecord(getUserInput("Enter diagnosis:"), getUserInput("Enter description"), getUserInput("Enter perscription:"), mNum, eNum);
                     }
 
                     // PATIENT services

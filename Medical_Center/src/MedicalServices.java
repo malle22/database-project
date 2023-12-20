@@ -167,6 +167,54 @@ public class MedicalServices {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+    }
+
+     void listDoctorsPatients(String eNum) throws Exception {
+        String query = "SELECT * FROM fn_list_all_appointments_for_doctor(?)";
+
+        try (Connection con = getDatabaseConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+            // Set input parameters
+            pstmt.setString(1, eNum);
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println("-------Your patient list------");
+            // Get result for each medical record
+            while (rs.next()) {
+                String mNum = rs.getString("medical_number");
+                String patient = rs.getString("patient_full_name");
+
+                System.out.print("Medical Number: " + mNum);
+                System.out.println(", Patient: " + patient);
+                System.out.println("--------------------------------");
+            }
+            pstmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addMedicalRecord(String diagnosis, String description, String perscription, String mNum, String eNum) throws Exception{
+
+        String query = "SELECT * FROM fn_add_medical_record(?,?,?,?,?)";
+        try(Connection con = getDatabaseConnection();
+            PreparedStatement pstmt = con.prepareStatement(query)){
+
+            pstmt.setString(1, diagnosis);
+            pstmt.setString(2, description);
+            pstmt.setString(3, perscription);
+            pstmt.setString(4, mNum);
+            pstmt.setString(5, eNum);
+            pstmt.execute();
+        }catch (SQLException e ){
+            e.printStackTrace();
+            throw new Exception("Error adding medical record.", e);
+        }
+        getDatabaseConnection().close();
     }
 
     public void printAllPatients() throws Exception {
