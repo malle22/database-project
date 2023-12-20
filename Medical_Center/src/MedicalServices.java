@@ -11,6 +11,7 @@ public class MedicalServices {
     private Appointment appointment;
     private NumberGenerator nbrGenerator = new NumberGenerator();
     private List<String> specializationsList = new ArrayList<>();
+    private List<String> genderList = new ArrayList<>(List.of("Female", "Male", "Other"));
     public Connection getDatabaseConnection() {
         String url = "jdbc:postgresql://pgserver.mau.se:5432/amak_medical_center";
         String user = "am5914";
@@ -215,6 +216,34 @@ public class MedicalServices {
             throw new Exception("Error adding medical record.", e);
         }
         getDatabaseConnection().close();
+    }
+
+    public void addPatient(String firstName, String lastName, int genderIndex, String address, String phone, Date birthDate)throws Exception{
+        String gender = genderList.get(genderIndex);
+        String mNum = nbrGenerator.Generate8DigitNbr();
+        String query = "SELECT * FROM fn_add_patient(?,?,?,?,?,?,?)";
+        try(Connection con = getDatabaseConnection();
+            PreparedStatement pstmt = con.prepareStatement(query)){
+
+            pstmt.setString(1, mNum);
+            pstmt.setString(2, firstName);
+            pstmt.setString(3, lastName);
+            pstmt.setString(4, gender);
+            pstmt.setString(5, address);
+            pstmt.setString(6, phone);
+            pstmt.setDate(7, birthDate);
+            pstmt.execute();
+        }catch (SQLException e ){
+            e.printStackTrace();
+            throw new Exception("Error adding patient.", e);
+        }
+        getDatabaseConnection().close();
+    }
+
+    public void printGenderList(){
+        for (int i = 0; i < genderList.size(); i++) {
+            System.out.println(i + " " + genderList.get(i));
+        }
     }
 
     public void printAllPatients() throws Exception {
