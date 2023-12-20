@@ -310,19 +310,25 @@ public class MedicalServices {
     }
 
     public void listDoctors()throws Exception{
-        String query = "SELECT * FROM doctor";
+        String query = "SELECT * FROM fn_list_doctors()";
         try (Connection con = getDatabaseConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
 
             // Execute the query
             ResultSet rs = pstmt.executeQuery();
-            System.out.println("------Doctors------");
+            System.out.println("-----------------------Doctors-----------------------");
             while (rs.next()) {
-                int doctorID = Integer.parseInt(rs.getString("employee_number"));
-                String doctorName = rs.getString("full_name");
-                System.out.println("Dr. " + doctorName + "      ID: " + doctorID);
+                String doctorID = rs.getString("doctor_id");
+                String doctorName = rs.getString("doctor_name");
+                boolean available = rs.getBoolean("available");
+                if(available){
+                    System.out.println("Dr. " + doctorName + "      ID: " + doctorID + "    Available");
+                }
+                else{
+                    System.out.println("Dr. " + doctorName + "      ID: " + doctorID + "    Not Available");
+                }
             }
-            System.out.println("-------------------");
+            System.out.println("-----------------------------------------------------");
         }catch (SQLException e ){
             e.printStackTrace();
             throw new Exception("Error retreiving doctors.", e);

@@ -30,7 +30,7 @@ public class UserInterface {
                     } else if (input == 3) {
                         services.listDoctors();
                         String doctorID = getUserInput("Delete Doctor (ID): ");
-                        while (!isValidEightDigitUserInput(doctorID)) {
+                        while (!isValidEightDigitUserInput(doctorID, 8)) {
                             System.out.println("Wrong input, try again.");
                             doctorID = getUserInput("Delete Doctor (ID): ");
                         }
@@ -96,9 +96,9 @@ public class UserInterface {
         String input = scan.nextLine();
         return input;
     }
-    public static boolean isValidEightDigitUserInput(String input){
+    public static boolean isValidEightDigitUserInput(String input, int maxLength){
         boolean ok = true;
-        if (input.length() == 8 ){
+        if (input.length() == maxLength ){
             for (int i = 0; i < input.length(); i++){
                 if (!Character.isDigit(input.charAt(i))){
                     ok = false;
