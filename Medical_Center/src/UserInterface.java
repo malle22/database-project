@@ -28,6 +28,13 @@ public class UserInterface {
                         services.addDoctor(firstName, lastName, specialization, phoneNbr);
                     } else if (input == 3) {
                         System.out.println("Not implemented");
+                        services.listDoctors();
+                        String doctorID = getUserInput("Delete Doctor (ID): ");
+                        while (!isValidEightDigitUserInput(doctorID)) {
+                            System.out.println("Wrong input, try again.");
+                            doctorID = getUserInput("Delete Doctor (ID): ");
+                        }
+                        services.deleteDoctor(doctorID);
                     } else if (input == 4) {
                         services.printAllPatients();
                     } else if (input == 5) {
@@ -78,5 +85,19 @@ public class UserInterface {
         }
         String input = scan.nextLine();
         return input;
+    }
+    public static boolean isValidEightDigitUserInput(String input){
+        boolean ok = true;
+        if (input.length() == 8 ){
+            for (int i = 0; i < input.length(); i++){
+                if (!Character.isDigit(input.charAt(i))){
+                    ok = false;
+                }
+            }
+        }
+        else {
+            ok = false;
+        }
+        return ok;
     }
 }
