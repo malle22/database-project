@@ -27,7 +27,6 @@ public class UserInterface {
                         String phoneNbr = getUserInput("Phone number: ");
                         services.addDoctor(firstName, lastName, specialization, phoneNbr);
                     } else if (input == 3) {
-                        System.out.println("Not implemented");
                         services.listDoctors();
                         String doctorID = getUserInput("Delete Doctor (ID): ");
                         while (!isValidEightDigitUserInput(doctorID)) {
