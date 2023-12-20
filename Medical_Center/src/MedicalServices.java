@@ -266,10 +266,10 @@ public class MedicalServices {
             //Get results
             boolean isDoctorDeleted = cstmt.getBoolean(1);
             if (isDoctorDeleted){
-                System.out.println("Doctor successfully deleted.");
+                System.out.println("Doctor successfully deleted from database.");
             }
             else{
-                System.out.println("Could not delete doctor.");
+                System.out.println("Doctor not deleted, there is dependencies connected to the doctor. \nChange: Doctor is not available for appointments!");
             }
 
         } catch (SQLException e) {
