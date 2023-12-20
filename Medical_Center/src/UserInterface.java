@@ -12,7 +12,7 @@ public class UserInterface {
                 // ADMIN services
                 if (input == 1) {
                     System.out.println(
-                            "Please select one of the following: \n 1-Add a specialization\n 2-Add a doctor to the system\n 3-Delete a doctor from the system\n 4-See a list of all registered patients\n 5-See a list of all upcoming appointments\n 6-See a list of a patient's medical records\n 7-See a list of all patients and their total sum of visit costs");
+                            "Please select one of the following: \n 1-Add a specialization\n 2-Add a doctor to the system\n 3-Delete a doctor from the system\n 4-See a list of all registered patients\n 5-See a list of all upcoming appointments\n 6-See a list of a patient's medical records\n 7-See a list of all patients and their total sum of visit costs\n 8-See a list of all registered doctors");
                     input = Integer.parseInt(getUserInput(null));
 
                     if (input == 1) {
@@ -42,9 +42,11 @@ public class UserInterface {
                         services.listAllMedicalRecordsOfPatient(getUserInput("Input medical number of patient:"));
                     }
                     else if (input == 7) {
-                        System.out.println("not implemented");
+                        services.listPatientsAndCost();
                     }
-
+                    else if(input == 8){
+                        services.listDoctors();
+                    }
                     // DOCTOR SERVICES
                 } else if (input == 2) {
                     System.out.println(
