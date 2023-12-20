@@ -1,3 +1,4 @@
+import java.sql.Date;
 import java.sql.Time;
 import java.util.Scanner;
 
@@ -62,6 +63,16 @@ public class UserInterface {
                     System.out.println(
                             "Please select one of the following: \n 1-Sign up\n 2-Edit information\n 3-Book an appointment\n 4-View diagnosis and perscription by doctor");
                     input = Integer.parseInt(getUserInput(null));
+                    if(input==1){
+                        String firstName = getUserInput("Input first name:");
+                        String lastName = getUserInput("Input last name:");
+                        services.printGenderList();
+                        int genderIndex = Integer.parseInt(getUserInput("Input gender:"));
+                        String address = getUserInput("Input address:");
+                        String phone = getUserInput("Input phone number: 10-digits");
+                        Date birthDate = Date.valueOf(getUserInput("Input date of birth: xxxx-xx-xx"));
+                        services.addPatient(firstName, lastName, genderIndex, address, phone, birthDate);
+                    }
                 } else if (input == 4) {
                     System.exit(0);
                 }
