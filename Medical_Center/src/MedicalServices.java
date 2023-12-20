@@ -253,4 +253,29 @@ public class MedicalServices {
         getDatabaseConnection().close();
     }
 
+    public void deleteDoctor(String doctorID) throws Exception {
+        try (Connection con = getDatabaseConnection();
+            CallableStatement cstmt = con.prepareCall("{ ? = call fn_delete_doctor(?) }")){
+
+            //register return value
+            cstmt.registerOutParameter(1, Types.BOOLEAN);
+            //register input values
+            cstmt.setString(2, doctorID);
+            cstmt.execute();
+
+            //Get results
+            boolean isDoctorDeleted = cstmt.getBoolean(1);
+            if (isDoctorDeleted){
+                System.out.println("Doctor successfully deleted.");
+            }
+            else{
+                System.out.println("Could not delete doctor.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Error deleting doctors.", e);
+        }
+    }
+
 }
