@@ -361,4 +361,25 @@ public class MedicalServices {
         }
     }
 
+    public void listPatientsAndCost() throws Exception {
+        String query = "SELECT * FROM fn_list_all_patients_with_total_costs()";
+        try (Connection con = getDatabaseConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println("-----------------------Patients & Cost-----------------------");
+            while (rs.next()) {
+                String patientID = rs.getString("medical_number");
+                String patientName = rs.getString("full_name");
+                int cost = rs.getInt("total_cost");
+                System.out.println("ID: " + patientID + "      Name: " + patientName + "    Cost: " + cost);
+            }
+            System.out.println("-------------------------------------------------------------");
+        }catch (SQLException e ){
+            e.printStackTrace();
+            throw new Exception("Error retreiving doctors.", e);
+        }
+        getDatabaseConnection().close();
+    }
 }
