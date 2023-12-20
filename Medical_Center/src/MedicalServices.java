@@ -232,4 +232,25 @@ public class MedicalServices {
         getDatabaseConnection().close();
     }
 
+    public void listDoctors()throws Exception{
+        String query = "SELECT * FROM doctor";
+        try (Connection con = getDatabaseConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println("------Doctors------");
+            while (rs.next()) {
+                int doctorID = Integer.parseInt(rs.getString("employee_number"));
+                String doctorName = rs.getString("full_name");
+                System.out.println("Dr. " + doctorName + "      ID: " + doctorID);
+            }
+            System.out.println("-------------------");
+        }catch (SQLException e ){
+            e.printStackTrace();
+            throw new Exception("Error retreiving doctors.", e);
+        }
+        getDatabaseConnection().close();
+    }
+
 }
