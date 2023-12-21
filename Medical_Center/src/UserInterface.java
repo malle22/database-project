@@ -79,6 +79,25 @@ public class UserInterface {
                         Date birthDate = Date.valueOf(getUserInput("Input date of birth: xxxx-xx-xx"));
                         services.addPatient(firstName, lastName, genderIndex, address, phone, birthDate);
                     }
+                    else if(input==2){
+
+
+                    }
+                    else if(input==3){
+                        String mNum = getUserInput("Input medical number:");
+                        services.listSpecializations();
+                        String specializationString = getUserInput("What type of medical service are you in need of?");
+                        int specializationIndex = Integer.parseInt(specializationString);
+                        services.printDoctorsOfSpecialization(specializationIndex);
+                        String eNum = getUserInput("Input employee number:");
+                        services.listDoctorsAvailabilities(eNum);
+                        String day = getUserInput("Input employee number:");
+                        Time time = Time.valueOf(getUserInput("Input employee number:"));
+
+                    }
+                    else if(input==4){
+                        //HEDDA GÖR DENNA
+                    }
                 } else if (input == 4) {
                     System.exit(0);
                 }
