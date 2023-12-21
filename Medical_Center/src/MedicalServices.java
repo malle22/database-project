@@ -51,7 +51,7 @@ public class MedicalServices {
 
             // Execute the query
             ResultSet rs = pstmt.executeQuery();
-
+            System.out.println("---------------------------------Medical Records-------------------------------");
             // Get result for each medical record
             while (rs.next()) {
                 String diagnosis = rs.getString("diagnosis");
@@ -60,13 +60,10 @@ public class MedicalServices {
                 String doctor = rs.getString("doctor_full_name");
                 Date recordDate = rs.getDate("record_date");
 
-                System.out.print("Diagnosis: " + diagnosis);
-                System.out.print(", Description: " + description);
-                System.out.print(", Prescription: " + prescription);
-                System.out.print(", Doctor: " + doctor);
-                System.out.println(", Record date: " + recordDate);
-                System.out.println("--------------------------------");
+                System.out.printf("Diagnosis: %-14s Description: %-38s Prescription: %-16s sign. Dr. %-20s  %-10s %n",
+                        diagnosis, description, prescription, doctor, recordDate);
             }
+            System.out.println("-------------------------------------------------------------------------------");
         } catch (SQLException e) {
             e.printStackTrace();
             throw new Exception("Error retrieving medical records.", e);
