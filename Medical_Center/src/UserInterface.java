@@ -7,7 +7,7 @@ public class UserInterface {
         try {
             MedicalServices services = new MedicalServices();
             while (true) {
-                System.out.println("Please select type of user: \n 1-Admin\n 2-Doctor\n 3-Patient\n 4-Exit");
+                System.out.println("Please select type of User: \n 1-Admin\n 2-Doctor\n 3-Patient\n 4-Exit");
                 int input = Integer.parseInt(getUserInput(null));
 
                 // ADMIN services
