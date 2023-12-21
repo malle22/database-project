@@ -13,7 +13,7 @@ public class UserInterface {
                 // ADMIN services
                 if (input == 1) {
                     System.out.println(
-                            "Please select one of the following: \n 1-Add a specialization\n 2-Add a doctor to the system\n 3-Delete a doctor from the system\n 4-See a list of all registered patients\n 5-See a list of all upcoming appointments\n 6-See a list of a patient's medical records\n 7-See a list of all patients and their total sum of visit costs\n 8-See a list of all registered doctors");
+                            "Please select one of the following: \n 0-Return to Main Menu\n 1-Add a specialization\n 2-Add a doctor to the system\n 3-Delete a doctor from the system\n 4-See a list of all registered patients\n 5-See a list of all upcoming appointments\n 6-See a list of a patient's medical records\n 7-See a list of all patients and their total sum of visit costs\n 8-See a list of all registered doctors");
                     input = Integer.parseInt(getUserInput(null));
 
                     if (input == 1) {
@@ -41,17 +41,17 @@ public class UserInterface {
                         services.listAllUpcomingAppointments();
                     } else if (input == 6) {
                         services.listAllMedicalRecordsOfPatient(getUserInput("Input medical number of patient:"));
-                    }
-                    else if (input == 7) {
+                    } else if (input == 7) {
                         services.listPatientsAndCost();
-                    }
-                    else if(input == 8){
+                    } else if(input == 8){
                         services.listDoctors();
+                    } else if (input == 0){
+                        //return to main menu
                     }
                     // DOCTOR SERVICES
                 } else if (input == 2) {
                     System.out.println(
-                            "Please select one of the following: \n 1-Alter availability\n 2-See a list of all upcoming appointments\n 3-Add a medical record to a patient");
+                            "Please select one of the following: \n 0-Return to Main Menu \n 1-Alter availability\n 2-See a list of all upcoming appointments\n 3-Add a medical record to a patient");
                     input = Integer.parseInt(getUserInput(null));
                     if(input == 1){
                         services.changeAvailability(getUserInput("Input employee number: 8 digits"), getUserInput("Input day: format 'Monday'"), Time.valueOf(getUserInput("Input time: format 'HH:mm:ss'")));
@@ -64,12 +64,14 @@ public class UserInterface {
                         services.listDoctorsPatients(eNum);
                         String mNum = getUserInput("Enter medical number: 8-digit");
                         services.addMedicalRecord(getUserInput("Enter diagnosis:"), getUserInput("Enter description"), getUserInput("Enter perscription:"), mNum, eNum);
+                    }else if (input == 0){
+                        //return to main menu
                     }
 
                     // PATIENT services
                 } else if (input == 3) {
                     System.out.println(
-                            "Please select one of the following: \n 1-Sign up\n 2-Edit information\n 3-Book an appointment\n 4-View diagnosis and perscription by doctor");
+                            "Please select one of the following: \n 0-Return to Main Menu\n 1-Sign up\n 2-Edit information\n 3-Book an appointment\n 4-View diagnosis and perscription by doctor");
                     input = Integer.parseInt(getUserInput(null));
                     if(input==1){
                         String firstName = getUserInput("Input first name:");
@@ -117,6 +119,8 @@ public class UserInterface {
                     }
                 } else if (input == 4) {
                     System.exit(0);
+                } else if (input == 0) {
+                    //return to Main Menu
                 }
             }
         } catch (Exception e) {

@@ -19,7 +19,6 @@ public class MedicalServices {
 
         try {
             Connection conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Connection Established");
             return conn;
         } catch (Exception e) {
             System.out.println(e);
