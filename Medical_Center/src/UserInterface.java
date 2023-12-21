@@ -30,7 +30,7 @@ public class UserInterface {
                     } else if (input == 3) {
                         services.listDoctors();
                         String doctorID = getUserInput("Delete Doctor (ID): ");
-                        while (!isValidEightDigitUserInput(doctorID, 8)) {
+                        while (!isValidDigitUserInput(doctorID, 8)) {
                             System.out.println("Wrong input, try again.");
                             doctorID = getUserInput("Delete Doctor (ID): ");
                         }
@@ -92,13 +92,23 @@ public class UserInterface {
                         int specializationIndex = Integer.parseInt(specializationString);
                         services.printDoctorsOfSpecialization(specializationIndex);
                         String eNum = getUserInput("Input employee number:");
-                        services.listDoctorsAvailabilities(eNum);
+                        services.printDoctorsAvailabilities(eNum);
                         String day = getUserInput("Input employee number:");
                         Time time = Time.valueOf(getUserInput("Input employee number:"));
 
                     }
                     else if(input==4){
-                        //HEDDA GÖR DENNA
+                        String mNum = getUserInput("Enter medical number: ");
+                        while(!isValidDigitUserInput(mNum,8)){
+                            if(mNum.equals("E")){
+                                break;
+                            }
+                            System.out.printf("Invalid input- try again or press E to exit %n");
+                            mNum = getUserInput(null);
+                        }
+                        if(isValidDigitUserInput(mNum, 8)){
+                            services.listDiagnosisAndPrescription(mNum);
+                        }
                     }
                 } else if (input == 4) {
                     System.exit(0);
@@ -114,10 +124,9 @@ public class UserInterface {
         if (msg != null) {
             System.out.println(msg);
         }
-        String input = scan.nextLine();
-        return input;
+        return scan.nextLine();
     }
-    public static boolean isValidEightDigitUserInput(String input, int maxLength){
+    public static boolean isValidDigitUserInput(String input, int maxLength){
         boolean ok = true;
         if (input.length() == maxLength ){
             for (int i = 0; i < input.length(); i++){

@@ -437,4 +437,27 @@ public class MedicalServices {
         }
         getDatabaseConnection().close();
     }
+
+    public void listDiagnosisAndPrescription(String mNum) throws Exception {
+        String query = "SELECT * FROM get_diagnosis_and_prescription(?)";
+        try (Connection con = getDatabaseConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            //input parameter
+            pstmt.setString(1, mNum);
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println("-----------------------Diagnosis and Prescription-----------------------");
+            while (rs.next()) {
+                String diagnosis = rs.getString("diagnosis");
+                String prescription = rs.getString("prescription");
+                System.out.printf("Diagnosis: %-20s Prescription: %s%n", diagnosis, prescription);            }
+            System.out.println("-----------------------------------------------------------------------");
+        }catch (SQLException e ){
+            e.printStackTrace();
+            throw new Exception("Error retrieving diagnosis and prescription.", e);
+        }
+        getDatabaseConnection().close();
+    }
 }
