@@ -119,7 +119,7 @@ public class MedicalServices {
 
             // Execute the query
             ResultSet rs = pstmt.executeQuery();
-
+            System.out.println("--------------------------------Upcoming Appointments--------------------------------");
             // Get result for each booked appointment
             while (rs.next()) {
                 String day = rs.getString("app_day");
@@ -133,6 +133,7 @@ public class MedicalServices {
             for (Appointment appointment : appointmentList){
                 System.out.println(appointment.toString());
             }
+            System.out.println("-------------------------------------------------------------------------------------");
 
         } catch (SQLException e ){
             e.printStackTrace();
@@ -152,17 +153,15 @@ public class MedicalServices {
 
             // Execute the query
             ResultSet rs = pstmt.executeQuery();
+            System.out.println("----------------Upcoming Appointments----------------");
             // Get result for each medical record
             while (rs.next()) {
                 String day = rs.getString("app_day");
                 Time time = rs.getTime("app_time");
                 String patient = rs.getString("patient_full_name");
-
-                System.out.print("Day: " + day);
-                System.out.print(", Time: " + time);
-                System.out.println(", Patient: " + patient);
-                System.out.println("--------------------------------");
+                System.out.printf("%-10s %-12s Patient: %s%n", day, time, patient);
             }
+            System.out.println("-----------------------------------------------------");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -339,17 +338,18 @@ public class MedicalServices {
         getDatabaseConnection().close();
     }
 
-    public void printAllPatients() throws Exception {
+    public void listPatients() throws Exception {
     Connection con = getDatabaseConnection();
     String query = "select * from \"patient\"";
     Statement stmt = con.createStatement();
     ResultSet rs = stmt.executeQuery(query);
+    System.out.println("-----------------Registered Patients-----------------");
     while (rs.next()) {
         System.out.print("Medical Number: " + rs.getString("medical_number"));
         System.out.print(", Name: " + rs.getString("first_name"));
         System.out.println(" " + rs.getString("last_name"));
-        System.out.println("--------------------------------");
     }
+    System.out.println("-----------------------------------------------------");
     stmt.close();
     con.close();
     }
@@ -409,19 +409,19 @@ public class MedicalServices {
 
             // Execute the query
             ResultSet rs = pstmt.executeQuery();
-            System.out.println("-----------------------Doctors-----------------------");
+            System.out.println("--------------------------------Doctors--------------------------------");
             while (rs.next()) {
                 String doctorID = rs.getString("doctor_id");
                 String doctorName = rs.getString("doctor_name");
                 boolean available = rs.getBoolean("available");
                 if(available){
-                    System.out.println("Dr. " + doctorName + "      ID: " + doctorID + "    Available");
+                    System.out.printf("Employee Number: %-12s Dr. %-20s Available: %b%n", doctorID, doctorName, available);
                 }
                 else{
-                    System.out.println("Dr. " + doctorName + "      ID: " + doctorID + "    Not Available");
+                    System.out.printf("Employee Number: %-12s Dr. %-20s Available: %b%n", doctorID, doctorName, available);
                 }
             }
-            System.out.println("-----------------------------------------------------");
+            System.out.println("-----------------------------------------------------------------------");
         }catch (SQLException e ){
             e.printStackTrace();
             throw new Exception("Error retreiving doctors.", e);
@@ -461,14 +461,14 @@ public class MedicalServices {
 
             // Execute the query
             ResultSet rs = pstmt.executeQuery();
-            System.out.println("-----------------------Patients & Cost-----------------------");
+            System.out.println("-------------------------Patients & Cost-------------------------");
             while (rs.next()) {
                 String patientID = rs.getString("medical_number");
                 String patientName = rs.getString("full_name");
                 int cost = rs.getInt("total_cost");
-                System.out.println("ID: " + patientID + "      Name: " + patientName + "    Cost: " + cost);
+                System.out.printf("Medical Number: %-12s %-20s Total: %s kr%n", patientID, patientName, cost);
             }
-            System.out.println("-------------------------------------------------------------");
+            System.out.println("-----------------------------------------------------------------");
         }catch (SQLException e ){
             e.printStackTrace();
             throw new Exception("Error retreiving doctors.", e);

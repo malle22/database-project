@@ -36,7 +36,7 @@ public class UserInterface {
                         }
                         services.deleteDoctor(doctorID);
                     } else if (input == 4) {
-                        services.printAllPatients();
+                        services.listPatients();
                     } else if (input == 5) {
                         services.listAllUpcomingAppointments();
                     } else if (input == 6) {
