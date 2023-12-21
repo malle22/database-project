@@ -98,8 +98,6 @@ public class UserInterface {
                         services.printDoctorsOfSpecialization(specializationIndex);
                         String eNum = getUserInput("Input employee number:");
                         services.printDoctorsAvailabilities(eNum);
-                        String day = getUserInput("Input employee number:");
-                        Time time = Time.valueOf(getUserInput("Input employee number:"));
                         String day = getUserInput("Choose day:");
                         Time time = Time.valueOf(getUserInput("Choose time:"));
                         services.bookAppointment(eNum,day,time,mNum);
