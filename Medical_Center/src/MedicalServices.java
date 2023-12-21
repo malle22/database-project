@@ -43,8 +43,6 @@ public class MedicalServices {
         con.close();
     }
 
-    // Call a database function
-
     public void listAllMedicalRecordsOfPatient(String medicalNum) throws Exception {
         String query = "SELECT * FROM fn_list_p_medical_records(?)";
         try (Connection con = getDatabaseConnection();
@@ -77,7 +75,7 @@ public class MedicalServices {
         getDatabaseConnection().close();
     }
 
-    void changeAvailability(String e_num, String day, Time time) {
+    void changeAvailability(String e_num, String day, Time time) throws Exception{
         try {
             // Establish a connection to the database
             Connection con = getDatabaseConnection();
@@ -144,7 +142,7 @@ public class MedicalServices {
     }
 
 
-    void listAllUpcomingAppointmentsOfDoctor(String eNum){
+    void listAllUpcomingAppointmentsOfDoctor(String eNum) throws Exception{
         String query = "SELECT * FROM fn_list_all_appointments_for_doctor(?)";
 
         try (Connection con = getDatabaseConnection();
@@ -168,7 +166,7 @@ public class MedicalServices {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        getDatabaseConnection().close();
     }
 
      void listDoctorsPatients(String eNum) throws Exception {
@@ -191,12 +189,11 @@ public class MedicalServices {
                 System.out.println(", Patient: " + patient);
                 System.out.println("--------------------------------");
             }
-            pstmt.close();
-            con.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+         getDatabaseConnection().close();
     }
 
     public void addMedicalRecord(String diagnosis, String description, String perscription, String mNum, String eNum) throws Exception{
@@ -239,11 +236,69 @@ public class MedicalServices {
         }
         getDatabaseConnection().close();
     }
-
     public void printGenderList(){
         for (int i = 0; i < genderList.size(); i++) {
             System.out.println(i + " " + genderList.get(i));
         }
+    }
+    public void printSpecializationList(){
+
+        for (int i = 0; i < specializationsList.size(); i++) {
+            System.out.println(i + " " + specializationsList.get(i));
+        }
+    }
+    public void printDoctorsOfSpecialization(int spec) throws Exception{
+        String query = "SELECT * FROM fn_doctors_with_specialization(?)";
+        String specialization = specializationsList.get(spec);
+        try (Connection con = getDatabaseConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+            // Set input parameters
+            pstmt.setString(1, specialization);
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println("-------Available doctors------");
+            // Get result for each medical record
+            while (rs.next()) {
+                String doctor = rs.getString("full_name");
+                String eNum = rs.getString("e_num");
+
+                System.out.print("Employee Number: " + eNum);
+                System.out.println(", Doctor: " + doctor);
+                System.out.println("--------------------------------");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        getDatabaseConnection().close();
+    }
+
+    public void printDoctorsAvailabilities(String eNum) throws Exception{
+        String query = "SELECT * FROM fn_list_availabilities(?)";
+
+        try (Connection con = getDatabaseConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+            // Set input parameters
+            pstmt.setString(1, eNum);
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println("-------Available appointments------");
+            // Get result for each medical record
+            while (rs.next()) {
+                String day = rs.getString("out_day");
+                Time time = rs.getTime("out_time");
+
+                System.out.print("Day: " + day);
+                System.out.println(", Time: " + time);
+                System.out.println("--------------------------------");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        getDatabaseConnection().close();
     }
 
     public void printAllPatients() throws Exception {
