@@ -92,10 +92,10 @@ public class UserInterface {
                         int specializationIndex = Integer.parseInt(specializationString);
                         services.printDoctorsOfSpecialization(specializationIndex);
                         String eNum = getUserInput("Input employee number:");
-                        services.listDoctorsAvailabilities(eNum);
-                        String day = getUserInput("Input employee number:");
-                        Time time = Time.valueOf(getUserInput("Input employee number:"));
-
+                        services.printDoctorsAvailabilities(eNum);
+                        String day = getUserInput("Choose day:");
+                        Time time = Time.valueOf(getUserInput("Choose time:"));
+                        services.bookAppointment(eNum,day,time,mNum);
                     }
                     else if(input==4){
                         //HEDDA GÖR DENNA

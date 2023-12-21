@@ -275,7 +275,7 @@ public class MedicalServices {
     }
 
     public void printDoctorsAvailabilities(String eNum) throws Exception{
-        String query = "SELECT * FROM fn_list_availabilities(?)";
+        String query = "SELECT * FROM fn_list_availabilites(?)";
 
         try (Connection con = getDatabaseConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -297,6 +297,24 @@ public class MedicalServices {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        getDatabaseConnection().close();
+    }
+
+    public void bookAppointment(String eNum, String day, Time time, String mNum) throws Exception{
+
+        String query = "SELECT * FROM fn_book_appointment(?,?,?,?)";
+        try(Connection con = getDatabaseConnection();
+            PreparedStatement pstmt = con.prepareStatement(query)){
+
+            pstmt.setString(1, eNum);
+            pstmt.setString(2, day);
+            pstmt.setTime(3, time);
+            pstmt.setString(4, mNum);
+            pstmt.execute();
+        }catch (SQLException e ){
+            e.printStackTrace();
+            throw new Exception("Error booking appointment.", e);
         }
         getDatabaseConnection().close();
     }
