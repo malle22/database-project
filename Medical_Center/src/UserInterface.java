@@ -51,7 +51,7 @@ public class UserInterface {
                     // DOCTOR SERVICES
                 } else if (input == 2) {
                     System.out.println(
-                            "QUUEEEEPlease select one of the following: \n 0-Return to Main Menu \n 1-Alter availability\n 2-See a list of all upcoming appointments\n 3-Add a medical record to a patient");
+                            "Please select one of the following: \n 0-Return to Main Menu \n 1-Alter availability\n 2-See a list of all upcoming appointments\n 3-Add a medical record to a patient");
                     input = Integer.parseInt(getUserInput(null));
                     if(input == 1){
                         String eNum= getUserInput("Input employee number: 8 digits");
