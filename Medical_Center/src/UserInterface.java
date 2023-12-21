@@ -82,8 +82,13 @@ public class UserInterface {
                         services.addPatient(firstName, lastName, genderIndex, address, phone, birthDate);
                     }
                     else if(input==2){
-
-
+                        String mNum = getUserInput("Input medical number:");
+                        System.out.println("Only enter the fields you want to edit, leave the others blank");
+                        String firstName = getUserInput("New firstname:");
+                        String lastName = getUserInput("New lastname:");
+                        String address = getUserInput("New address:");
+                        String phone = getUserInput("New phone number:");
+                        services.updatePatientInformation(mNum,firstName,lastName,address,phone);
                     }
                     else if(input==3){
                         String mNum = getUserInput("Input medical number:");
@@ -115,7 +120,9 @@ public class UserInterface {
             System.out.println(msg);
         }
         String input = scan.nextLine();
-        return input;
+
+        // If the user leaves the field blank, return null
+        return input.trim().isEmpty() ? null : input;
     }
     public static boolean isValidEightDigitUserInput(String input, int maxLength){
         boolean ok = true;
