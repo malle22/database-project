@@ -275,7 +275,7 @@ public class MedicalServices {
     }
 
     public void printDoctorsAvailabilities(String eNum) throws Exception{
-        String query = "SELECT * FROM fn_list_availabilities(?)";
+        String query = "SELECT * FROM fn_list_availabilites(?)";
 
         try (Connection con = getDatabaseConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -297,6 +297,44 @@ public class MedicalServices {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        getDatabaseConnection().close();
+    }
+
+    public void bookAppointment(String eNum, String day, Time time, String mNum) throws Exception{
+
+        String query = "SELECT * FROM fn_book_appointment(?,?,?,?)";
+        try(Connection con = getDatabaseConnection();
+            PreparedStatement pstmt = con.prepareStatement(query)){
+
+            pstmt.setString(1, eNum);
+            pstmt.setString(2, day);
+            pstmt.setTime(3, time);
+            pstmt.setString(4, mNum);
+            pstmt.execute();
+        }catch (SQLException e ){
+            e.printStackTrace();
+            throw new Exception("Error booking appointment.", e);
+        }
+        getDatabaseConnection().close();
+    }
+
+    public void updatePatientInformation(String mNum, String firstName, String lastName, String address, String phone)throws Exception{
+
+        String query = "SELECT * FROM fn_update_patient_info(?,?,?,?,?)";
+        try(Connection con = getDatabaseConnection();
+            PreparedStatement pstmt = con.prepareStatement(query)){
+
+            pstmt.setString(1, mNum);
+            pstmt.setString(2, firstName);
+            pstmt.setString(3, lastName);
+            pstmt.setString(4, address);
+            pstmt.setString(5, phone);
+
+            pstmt.execute();
+        }catch (SQLException e ){
+            e.printStackTrace();
+            throw new Exception("Error editing patient information.", e);
         }
         getDatabaseConnection().close();
     }

@@ -82,8 +82,13 @@ public class UserInterface {
                         services.addPatient(firstName, lastName, genderIndex, address, phone, birthDate);
                     }
                     else if(input==2){
-
-
+                        String mNum = getUserInput("Input medical number:");
+                        System.out.println("Only enter the fields you want to edit, leave the others blank");
+                        String firstName = getUserInput("New firstname:");
+                        String lastName = getUserInput("New lastname:");
+                        String address = getUserInput("New address:");
+                        String phone = getUserInput("New phone number:");
+                        services.updatePatientInformation(mNum,firstName,lastName,address,phone);
                     }
                     else if(input==3){
                         String mNum = getUserInput("Input medical number:");
@@ -95,7 +100,9 @@ public class UserInterface {
                         services.printDoctorsAvailabilities(eNum);
                         String day = getUserInput("Input employee number:");
                         Time time = Time.valueOf(getUserInput("Input employee number:"));
-
+                        String day = getUserInput("Choose day:");
+                        Time time = Time.valueOf(getUserInput("Choose time:"));
+                        services.bookAppointment(eNum,day,time,mNum);
                     }
                     else if(input==4){
                         String mNum = getUserInput("Enter medical number: ");
@@ -124,8 +131,11 @@ public class UserInterface {
         if (msg != null) {
             System.out.println(msg);
         }
-        return scan.nextLine();
+        String input = scan.nextLine();
+        // If the user leaves the field blank, return null
+        return input.trim().isEmpty() ? null : input;
     }
+  
     public static boolean isValidDigitUserInput(String input, int maxLength){
         boolean ok = true;
         if (input.length() == maxLength ){
