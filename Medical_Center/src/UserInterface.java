@@ -54,16 +54,27 @@ public class UserInterface {
                             "Please select one of the following: \n 0-Return to Main Menu \n 1-Alter availability\n 2-See a list of all upcoming appointments\n 3-Add a medical record to a patient");
                     input = Integer.parseInt(getUserInput(null));
                     if(input == 1){
-                        services.changeAvailability(getUserInput("Input employee number: 8 digits"), getUserInput("Input day: format 'Monday'"), Time.valueOf(getUserInput("Input time: format 'HH:mm:ss'")));
+                        String eNum= getUserInput("Input employee number: 8 digits");
+                        services.printDoctorsAvailabilities(eNum);
+                        System.out.println("Enter changes or press 0 to return.");
+                        String inputDay = getUserInput("Input day: format 'Monday'");
+                        if(inputDay.equals("0")) continue;
+                        services.changeAvailability(eNum, inputDay, Time.valueOf(getUserInput("Input time: format 'HH:mm:ss'")));
+
                     }
                     else if(input == 2){
                         services.listAllUpcomingAppointmentsOfDoctor(getUserInput("Input employee number: 8 digits"));
                     }
                     else if(input == 3){
                         String eNum = getUserInput("Enter employee number: 8-digit");
-                        services.listDoctorsPatients(eNum);
-                        String mNum = getUserInput("Enter medical number: 8-digit");
+                        boolean havePatients = services.listDoctorsPatients(eNum);
+                        if (!havePatients){
+                            System.out.println("You have no patients.");
+                        }
+                        String mNum = getUserInput("Enter medical number (or press 0 to return): 8-digit");
+                        if (mNum.equals("0") ) continue;
                         services.addMedicalRecord(getUserInput("Enter diagnosis:"), getUserInput("Enter description"), getUserInput("Enter perscription:"), mNum, eNum);
+
                     }else if (input == 0){
                         //return to main menu
                     }
@@ -107,10 +118,8 @@ public class UserInterface {
                     else if(input==4){
                         String mNum = getUserInput("Enter medical number: ");
                         while(!isValidDigitUserInput(mNum,8)){
-                            if(mNum.equals("E")){
-                                break;
-                            }
-                            System.out.printf("Invalid input- try again or press E to exit %n");
+                            if(mNum.equals("0")) break;
+                            System.out.printf("Invalid input- try again or press 0 to return %n");
                             mNum = getUserInput(null);
                         }
                         if(isValidDigitUserInput(mNum, 8)){

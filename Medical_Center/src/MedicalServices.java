@@ -3,23 +3,19 @@ import Utilities.NumberGenerator;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 public class MedicalServices {
 
-    private Appointment appointment;
-    private NumberGenerator nbrGenerator = new NumberGenerator();
-    private List<String> specializationsList = new ArrayList<>();
-    private List<String> genderList = new ArrayList<>(List.of("Female", "Male", "Other"));
+    private final NumberGenerator nbrGenerator = new NumberGenerator();
+    private final List<String> specializationsList = new ArrayList<>();
+    private final List<String> genderList = new ArrayList<>(List.of("Female", "Male", "Other"));
     public Connection getDatabaseConnection() {
         String url = "jdbc:postgresql://pgserver.mau.se:5432/amak_medical_center";
         String user = "am5914";
         String password = "9gzbaurf";
 
         try {
-            Connection conn = DriverManager.getConnection(url, user, password);
-            return conn;
+            return DriverManager.getConnection(url, user, password);
         } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
@@ -71,7 +67,7 @@ public class MedicalServices {
         getDatabaseConnection().close();
     }
 
-    void changeAvailability(String e_num, String day, Time time) throws Exception{
+    public void changeAvailability(String e_num, String day, Time time) {
         try {
             // Establish a connection to the database
             Connection con = getDatabaseConnection();
@@ -123,7 +119,7 @@ public class MedicalServices {
                 String doctor = rs.getString("doctor_full_name");
                 String patient = rs.getString("patient_full_name");
                 //Add to a list containing appointment-objects
-                appointmentList.add(appointment = new Appointment(day, doctor, patient, time));
+                appointmentList.add(new Appointment(day, doctor, patient, time));
             }
             //Print appointments
             for (Appointment appointment : appointmentList){
@@ -139,7 +135,7 @@ public class MedicalServices {
     }
 
 
-    void listAllUpcomingAppointmentsOfDoctor(String eNum) throws Exception{
+    public void listAllUpcomingAppointmentsOfDoctor(String eNum) throws Exception{
         String query = "SELECT * FROM fn_list_all_appointments_for_doctor(?)";
 
         try (Connection con = getDatabaseConnection();
@@ -164,9 +160,9 @@ public class MedicalServices {
         getDatabaseConnection().close();
     }
 
-     void listDoctorsPatients(String eNum) throws Exception {
+     public boolean listDoctorsPatients(String eNum) throws Exception {
         String query = "SELECT * FROM fn_list_all_appointments_for_doctor(?)";
-
+        boolean foundAppointments = true;
         try (Connection con = getDatabaseConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
             // Set input parameters
@@ -174,6 +170,9 @@ public class MedicalServices {
 
             // Execute the query
             ResultSet rs = pstmt.executeQuery();
+            if (!rs.next()){
+                foundAppointments = false;
+            }
             System.out.println("-------Your patient list------");
             // Get result for each medical record
             while (rs.next()) {
@@ -189,6 +188,7 @@ public class MedicalServices {
             e.printStackTrace();
         }
          getDatabaseConnection().close();
+        return foundAppointments;
     }
 
     public void addMedicalRecord(String diagnosis, String description, String perscription, String mNum, String eNum) throws Exception{
