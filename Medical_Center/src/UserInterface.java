@@ -1,3 +1,5 @@
+import Utilities.InputValidator;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Scanner;
@@ -6,6 +8,7 @@ public class UserInterface {
     public static void main(String[] args) {
         try {
             MedicalServices services = new MedicalServices();
+            InputValidator inputvalidator = new InputValidator();
             while (true) {
                 System.out.println("Please select type of User: \n 1-Admin\n 2-Doctor\n 3-Patient\n 4-Exit");
                 int input = Integer.parseInt(getUserInput(null));
@@ -30,7 +33,7 @@ public class UserInterface {
                     } else if (input == 3) {
                         services.listDoctors();
                         String doctorID = getUserInput("Delete Doctor (ID): ");
-                        while (!isValidDigitUserInput(doctorID, 8)) {
+                        while (!inputvalidator.isValidDigitUserInput(doctorID, 8)) {
                             System.out.println("Wrong input, try again.");
                             doctorID = getUserInput("Delete Doctor (ID): ");
                         }
@@ -117,12 +120,12 @@ public class UserInterface {
                     }
                     else if(input==4){
                         String mNum = getUserInput("Enter medical number: ");
-                        while(!isValidDigitUserInput(mNum,8)){
+                        while(!inputvalidator.isValidDigitUserInput(mNum,8)){
                             if(mNum.equals("0")) break;
                             System.out.printf("Invalid input- try again or press 0 to return %n");
                             mNum = getUserInput(null);
                         }
-                        if(isValidDigitUserInput(mNum, 8)){
+                        if(inputvalidator.isValidDigitUserInput(mNum, 8)){
                             services.listDiagnosisAndPrescription(mNum);
                         }
                     }
@@ -146,19 +149,5 @@ public class UserInterface {
         // If the user leaves the field blank, return null
         return input.trim().isEmpty() ? null : input;
     }
-  
-    public static boolean isValidDigitUserInput(String input, int maxLength){
-        boolean ok = true;
-        if (input.length() == maxLength ){
-            for (int i = 0; i < input.length(); i++){
-                if (!Character.isDigit(input.charAt(i))){
-                    ok = false;
-                }
-            }
-        }
-        else {
-            ok = false;
-        }
-        return ok;
-    }
+
 }

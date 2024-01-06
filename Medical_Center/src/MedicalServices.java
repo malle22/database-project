@@ -236,12 +236,7 @@ public class MedicalServices {
             System.out.println(i + " " + genderList.get(i));
         }
     }
-    public void printSpecializationList(){
 
-        for (int i = 0; i < specializationsList.size(); i++) {
-            System.out.println(i + " " + specializationsList.get(i));
-        }
-    }
     public void printDoctorsOfSpecialization(int spec) throws Exception{
         String query = "SELECT * FROM fn_doctors_with_specialization(?)";
         String specialization = specializationsList.get(spec);

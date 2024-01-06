@@ -1,0 +1,24 @@
+Hedda Eriksson & Malin Ramkull
+Malmö University
+BE in Computer Engineering
+
+# Health Care App - project in database technology
+
+# About
+The developed application is an information system for a healthcare center.
+There are three different actors: administrators, doctors, and patients, who
+will use the application. The information system is designed to store all essential
+information in a database, which will then be retrieved and presented for various purposes
+in a user interface. The main goal is to gain knowledge in the use of databases in programming
+contexts, as well as in the design and construction of databases. The program runs on a
+PostgreSQL database.
+
+# Configuration and Installation
+Add JDBC driver to the project. For IntelliJ go to:
+1. Project structure -> 2. modules -> 3. dependencies -> 4. add ->
+5. find location of driver and add to project
+
+If there is a out-directory -> delete it!
+
+Go ahead and run the application from main,
+the program uses command-line interface.
