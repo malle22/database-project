@@ -12,21 +12,7 @@ public class Appointment
         this.doctor = doctor;
         this.patient = patient;
     }
-    public String getDay() {
-        return day;
-    }
 
-    public String getDoctor() {
-        return doctor;
-    }
-
-    public String getPatient() {
-        return patient;
-    }
-
-    public Time getTime() {
-        return time;
-    }
     @Override
     public String toString() {
         return "Appointment: " +
